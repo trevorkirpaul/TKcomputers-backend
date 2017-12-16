@@ -9,8 +9,10 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true
   },
-  password: String
-});
+  password: String,
+  firstName: String,
+  admin: Boolean
+}, {collection: 'users'});
 
 // on save hook, encrypt password
   // before saving a model, run this function
