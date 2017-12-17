@@ -16,6 +16,7 @@ const gpuSchema = new Schema({
   },
   power: Number,
   slotWidth: Number,
+  price: Number,
   imagePath: String,
 }, { collection: 'gpu' });
 

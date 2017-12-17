@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const ROOT_URL = require('./config').ROOT_URL;
 const cors = require('cors');
 
+
+
 // DB setup
 // mongoose.connect('mongodb://localhost:auth/auth');
 mongoose.connect(`mongodb://${ROOT_URL}/TKcomputerDB`, { useMongoClient: true });

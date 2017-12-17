@@ -6,6 +6,7 @@ const ssdSchema = new Schema({
   brand: String,
   model: String,
   capacity: Number,
+  imagePath: String,
   speed: {
     write: Number,
     read: Number

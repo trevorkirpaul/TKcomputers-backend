@@ -1,14 +1,16 @@
 const Gpu = require('../models/gpu');
 const Cpu = require('../models/cpu');
-const SSD = require('../models/ssd');
-const HDD = require('../models/hdd');
-const RAM = require('../models/ram');
+const Ssd = require('../models/ssd');
+const Hdd = require('../models/hdd');
+const Ram = require('../models/ram');
 const Keyboard = require('../models/keyboard');
 const Mouse = require('../models/mouse');
 const Case = require('../models/case');
 const Fan = require('../models/fan');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+
 exports.createGPU = (req, res, next) => {
   // pull info from request, TODO: make this less imperative...
   const brand = req.body.brand;
@@ -48,6 +50,13 @@ exports.createGPU = (req, res, next) => {
   });
 
 };
+
+exports.getGPUs = (req, res, next) => {
+  Gpu.find({}, (err, Gpus) => {
+    if(err) { return next(err); }
+    res.send(Gpus);
+  });  
+}
 
 exports.findGPU = (req, res, next) => {
   const brand = req.body.gpuBrand;
@@ -124,7 +133,7 @@ exports.createSSD = (req, res, next) => {
   const price = req.body.price;
   const imagePath = req.body.imagePath;
   // create new ssd
-  const ssd = new SSD({
+  const ssd = new Ssd({
     brand,
     model,
     capacity,
@@ -142,6 +151,12 @@ exports.createSSD = (req, res, next) => {
     ssd
   });
 }
+exports.getAllSSD = (req, res, next) => {
+  Ssd.find({}, (err, Ssds) => {
+    if(err) { return next(err); }
+    res.send(Ssds);
+  });  
+}
 
 
 // HDD
@@ -156,7 +171,7 @@ exports.createHDD = (req, res, next) => {
   const price = req.body.price;
   const imagePath = req.body.imagePath;
   // create new hdd
-  const hdd = new HDD({
+  const hdd = new Hdd({
     brand,
     model,
     capacity,
@@ -176,11 +191,10 @@ exports.createHDD = (req, res, next) => {
 }
 // get all HDD
 exports.getHDDs = (req, res, next) => {
-  HDD.find({}, (err, HDDs) => {
+  Hdd.find({}, (err, Hdds) => {
     if(err) { return next(err); }
-    res.send(HDDs);
-  });
-  
+    res.send(Hdds);
+  });  
 }
 
 // RAM - Memory
@@ -196,7 +210,7 @@ exports.createRAM = (req, res, next) => {
   const price = req.body.price;
   const imagePath = req.body.imagePath;
   // create new ram
-  const ram = new RAM({
+  const ram = new Ram({
     brand,
     model,
     series,
@@ -217,6 +231,12 @@ exports.createRAM = (req, res, next) => {
   });
 }
 
+exports.getAllRam = (req, res, next) => {
+  Ram.find({}, (err, Rams) => {
+    if(err) { return next(err); }
+    res.send(Rams);
+  });  
+}
 
 
 // KEYBOARD
@@ -252,6 +272,12 @@ exports.createKeyboard = (req, res, next) => {
   });
 }
 
+exports.getAllKeyboards = (req, res, next) => {
+  Keyboard.find({}, (err, keebs) => {
+    if(err) { return next(err); }
+    res.send(keebs);
+  });  
+}
 
 // MOUSE
 
@@ -284,6 +310,12 @@ exports.createMouse = (req, res, next) => {
     message: 'new mouse added to db!',
     mouse
   });
+}
+exports.getAllMouses = (req, res, next) => {
+  Mouse.find({}, (err, mouses) => {
+    if(err) { return next(err); }
+    res.send(mouses);
+  });  
 }
 
 
@@ -377,19 +409,30 @@ exports.getSearch = (req, res, next) => {
   const category = capFirstLetter(req.body.category);
   const id = req.body.id;
 
-  
+  // using eval here isn't rec, need to find a new method of serving item data for the viewMoreItem client
   
 
-  eval(category).find({_id:id}, (err, item) => {
+  eval(category).findOne({_id:id}, (err, item) => {
     if(err) { return next(err); }
     res.send(item);
   })
 }
+// same but for removing part
+exports.removePart = (req, res, next) => {
+  const capFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+  const category = capFirstLetter(req.body.category);
+  const id = req.body.id;
+
+  // using eval here isn't rec, need to find a new method of serving item data for the viewMoreItem client
+  
+
+  eval(category).findByIdAndRemove(id, (err, item) => {
+    if (err) { return next(err); }
+    res.send({
+      message: 'Part succesfully deleted from database',
+      item
+    })
+  })
+}
 
 
-// exports.getAllCPU = (req, res, next) => {
-//   Cpu.find({}, (err, CPUs) => {
-//     if (err) { return next(err); }
-//     res.send(CPUs);
-//   })
-// }

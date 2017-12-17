@@ -11,6 +11,8 @@ const requireSignin = passport.authenticate('local', { session: false });
 
 module.exports = (app) => {
   
+  // remove item
+  app.post('/parts/remove', Parts.removePart);
 
   // routes for user accounts - still default
   app.get('/', requireAuth, (req, res) => {
@@ -30,7 +32,7 @@ module.exports = (app) => {
   // create gpu
   app.post('/parts/set/gpu', Parts.createGPU);
   // find all gpus -- currently using 'brand'
-  app.post('/findParts/gpu', Parts.findGPU);
+  app.get('/parts/get/gpu', Parts.getGPUs);
 
   // CPU --
   // create cpu
@@ -43,7 +45,7 @@ module.exports = (app) => {
 
   // SSD --
   app.post('/parts/ssd', Parts.createSSD);
-
+  app.get('/parts/get/ssd', Parts.getAllSSD)
   // HDD
   // create HDD
   app.post('/parts/set/hdd', Parts.createHDD);
@@ -52,12 +54,15 @@ module.exports = (app) => {
 
   // RAM --
   app.post('/parts/set/ram', Parts.createRAM);
+  app.get('/parts/get/ram', Parts.getAllRam);
 
   // KEYBOARD --
   app.post('/parts/set/keyboard', Parts.createKeyboard);
+  app.get('/parts/get/keyboard', Parts.getAllKeyboards);
 
   // MOUSE --
   app.post('/parts/set/mouse', Parts.createMouse);
+  app.get('/parts/get/mouse', Parts.getAllMouses);
 
   // CASE --
   // create case
