@@ -10,8 +10,22 @@ const userSchema = new Schema({
     lowercase: true
   },
   password: String,
-  firstName: String,
-  admin: Boolean
+  admin: Boolean,
+  profile: {
+    firstName: String,
+    lastName: String,
+    address: {
+      city: String,
+      state: String,
+      street: String,
+    },
+    purchases: {
+      complete: Array,
+      current: Array
+    },
+    shoppingCart: Array
+  }
+
 }, {collection: 'users'});
 
 // on save hook, encrypt password

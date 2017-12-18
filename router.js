@@ -6,7 +6,7 @@ const Software = require('./controllers/software');
 const Computer = require('./controllers/computer');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
- 
+ const Profile = require('./controllers/profile');
 
 
 module.exports = (app) => {
@@ -16,8 +16,10 @@ module.exports = (app) => {
 
   // routes for user accounts - still default
   app.get('/', requireAuth, (req, res) => {
-    res.send({ hi: 'there' });
+    const user = req.user;
+    res.send(user);
   });
+  app.get('/get/profile', Profile.getProfile )
   app.post('/signin', requireSignin, Authentication.signin)
 
   app.post('/signup', Authentication.signup);

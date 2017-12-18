@@ -27,7 +27,8 @@ exports.signup = (req, res, next) => {
   // pull info from request
   const email = req.body.email;
   const password = req.body.password;
-
+  const admin = req.body.admin; 
+  const {firstName, lastName, city, state, street} = req.body;  
   if (!email || !password) {
     return res.status(422).send({ error: 'You must provide email and password' });
   }
@@ -43,12 +44,23 @@ exports.signup = (req, res, next) => {
     // If user with email doesn't exist
     const user = new User({
       email: email,
-      password: password
+      password: password,
+      admin: admin,
+      profile: {
+        firstName,
+        lastName,
+        address: {
+          city,
+          state,
+          street
+        }
+      }
     });
     user.save((err) => {
       if (err) { return next(err); }
     });
-    res.json({ token: tokenForUser(user) });
+    // res.json({ token: tokenForUser(user) });
+    res.send(user);
   });
   
 };
