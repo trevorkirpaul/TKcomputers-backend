@@ -7,9 +7,9 @@ const Keyboard = require('../models/keyboard');
 const Mouse = require('../models/mouse');
 const Case = require('../models/case');
 const Fan = require('../models/fan');
+const Computer = require('../models/products/computers/computer');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 
 exports.createGPU = (req, res, next) => {
   // pull info from request, TODO: make this less imperative...
@@ -24,7 +24,7 @@ exports.createGPU = (req, res, next) => {
   ports.displayPort = req.body.displayPort;
   ports.dvi = req.body.dvi;
   const power = req.body.power;
-  const slotWidth= req.body.slotWidth;
+  const slotWidth = req.body.slotWidth;
   const imagePath = req.body.imagePath;
   // create new gpu using pulled vars
   const gpu = new Gpu({
@@ -37,44 +37,49 @@ exports.createGPU = (req, res, next) => {
     ports,
     power,
     slotWidth,
-    imagePath
+    imagePath,
   });
   // save gpu
-  gpu.save((err) => {
-    if(err) { return next(err); }
+  gpu.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
 
   res.json({
     message: 'new gpu added to database!',
-    gpu
+    gpu,
   });
-
 };
 
 exports.getGPUs = (req, res, next) => {
   Gpu.find({}, (err, Gpus) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(Gpus);
-  });  
-}
+  });
+};
 
 exports.findGPU = (req, res, next) => {
   const brand = req.body.gpuBrand;
   Gpu.find({ brand: brand }, (err, GPUs) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     if (GPUs.length > 0) {
       return res.send(GPUs);
     } else {
-      return res.send({"message":"No gpus found matching that brand"});
+      return res.send({ message: 'No gpus found matching that brand' });
     }
-  })
-}
+  });
+};
 
 // CPUS
 
 exports.createCPU = (req, res, next) => {
   // pull infro from req
-  const brand = req.body.brand;  
+  const brand = req.body.brand;
   const chipset = req.body.chipset;
   const cpuSeries = req.body.cpuSeries;
   const frequency = {};
@@ -99,26 +104,29 @@ exports.createCPU = (req, res, next) => {
     threads,
     cores,
     pciLanes,
-    imagePath
+    imagePath,
   });
   // save new cpu
-  cpu.save((err) => {
-    if(err) { return next(err); }
+  cpu.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with created cpu from db
   res.json({
     message: 'new cpu added to database!',
-    cpu
+    cpu,
   });
-}
+};
 
 exports.getAllCPU = (req, res, next) => {
   Cpu.find({}, (err, CPUs) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(CPUs);
-  })
-}
-
+  });
+};
 
 // SSD
 
@@ -139,25 +147,28 @@ exports.createSSD = (req, res, next) => {
     capacity,
     speed,
     price,
-    imagePath
+    imagePath,
   });
   // save new ssd
-  ssd.save((err) => {
-    if(err) { return next(err);}
+  ssd.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with newly created ssd from db
   res.send({
     message: 'new ssd added to the database!',
-    ssd
+    ssd,
   });
-}
+};
 exports.getAllSSD = (req, res, next) => {
   Ssd.find({}, (err, Ssds) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(Ssds);
-  });  
-}
-
+  });
+};
 
 // HDD
 
@@ -177,25 +188,29 @@ exports.createHDD = (req, res, next) => {
     capacity,
     rpm,
     price,
-    imagePath
+    imagePath,
   });
   // save new hdd to db
-  hdd.save((err) => {
-    if(err) { return next(err); }
+  hdd.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with newly created hdd
   res.send({
     message: 'new hdd added to database!',
-    hdd
+    hdd,
   });
-}
+};
 // get all HDD
 exports.getHDDs = (req, res, next) => {
   Hdd.find({}, (err, Hdds) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(Hdds);
-  });  
-}
+  });
+};
 
 // RAM - Memory
 
@@ -218,26 +233,29 @@ exports.createRAM = (req, res, next) => {
     type,
     speed,
     price,
-    imagePath
+    imagePath,
   });
   // Save new ram to db
-  ram.save((err) => {
-    if(err) { return next(err); }
+  ram.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with newly created ram item from db
   res.send({
     message: 'new ram added to database!',
-    ram
+    ram,
   });
-}
+};
 
 exports.getAllRam = (req, res, next) => {
   Ram.find({}, (err, Rams) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(Rams);
-  });  
-}
-
+  });
+};
 
 // KEYBOARD
 
@@ -259,25 +277,29 @@ exports.createKeyboard = (req, res, next) => {
     backlit,
     color,
     price,
-    imagePath
-  })
+    imagePath,
+  });
   // save keeb
-  keyboard.save((err) => {
-    if(err) { return next(err); }
+  keyboard.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with newly created keyboard from db
   res.send({
     message: 'new keyboard added to db!',
-    keyboard
+    keyboard,
   });
-}
+};
 
 exports.getAllKeyboards = (req, res, next) => {
   Keyboard.find({}, (err, keebs) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(keebs);
-  });  
-}
+  });
+};
 
 // MOUSE
 
@@ -299,25 +321,28 @@ exports.createMouse = (req, res, next) => {
     gripStyle,
     color,
     price,
-    imagePath
+    imagePath,
   });
   // save new mouse
-  mouse.save((err) => {
-    if(err) { return next(err); }
+  mouse.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with newly created mouse from db
   res.send({
     message: 'new mouse added to db!',
-    mouse
+    mouse,
   });
-}
+};
 exports.getAllMouses = (req, res, next) => {
   Mouse.find({}, (err, mouses) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(mouses);
-  });  
-}
-
+  });
+};
 
 // CASE
 
@@ -345,27 +370,31 @@ exports.createCase = (req, res, next) => {
     price,
     imagePath,
     sidePanel,
-    weight
+    weight,
   });
   // save new case to db
-  $case.save((err) => {
-    if(err) { return next(err); }
+  $case.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with new case from db
   res.send({
     message: 'new case added to database!',
-    $case
+    $case,
   });
-}
+};
 
 // get all cases
 
 exports.getAllCases = (req, res, next) => {
   Case.find({}, (err, Cases) => {
-    if(err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send(Cases);
-  })
-}
+  });
+};
 
 // FAN
 
@@ -383,56 +412,107 @@ exports.createFan = (req, res, next) => {
     model,
     type,
     rpm,
-    imagePath
+    imagePath,
   });
   // save newly created fan to db
-  fan.save((err) => {
-    if(err) { return next(err); }
+  fan.save(err => {
+    if (err) {
+      return next(err);
+    }
   });
   // respond with new fan from db
   res.json({
     message: 'new fan added to database',
-    fan
+    fan,
   });
-}
+};
 // get all fans
 exports.getFans = (req, res, next) => {
- Fan.find({}, (err, Fans) => {
-   if(err) { return next(err); }
-   res.send(Fans);
- }) 
-}
+  Fan.find({}, (err, Fans) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Fans);
+  });
+};
 
 // search category that was passed through params
 exports.getSearch = (req, res, next) => {
-  const capFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+  const capFirstLetter = string =>
+    string.charAt(0).toUpperCase() + string.slice(1);
   const category = capFirstLetter(req.body.category);
   const id = req.body.id;
 
-  // using eval here isn't rec, need to find a new method of serving item data for the viewMoreItem client
-  
+  // using eval here isn't rec, need to find a new method of
+  // serving item data for the viewMoreItem client
 
-  eval(category).findOne({_id:id}, (err, item) => {
-    if(err) { return next(err); }
+  eval(category).findOne({ _id: id }, (err, item) => {
+    if (err) {
+      return next(err);
+    }
     res.send(item);
-  })
-}
+  });
+};
 // same but for removing part
 exports.removePart = (req, res, next) => {
-  const capFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+  const capFirstLetter = string =>
+    string.charAt(0).toUpperCase() + string.slice(1);
   const category = capFirstLetter(req.body.category);
   const id = req.body.id;
 
   // using eval here isn't rec, need to find a new method of serving item data for the viewMoreItem client
-  
 
   eval(category).findByIdAndRemove(id, (err, item) => {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
     res.send({
       message: 'Part succesfully deleted from database',
-      item
-    })
-  })
-}
+      item,
+    });
+  });
+};
 
+//
+// CREATE COMPUTER
+//
 
+exports.createComputer = (req, res, next) => {
+  // pull info from request
+  const name = req.body.name;
+  const price = req.body.price;
+  const $case = req.body.case;
+  const cpu = req.body.cpu;
+  const fan = req.body.fan;
+  const gpu = req.body.gpu;
+  const hdd = req.body.hdd;
+  const keyboard = req.body.keyboard;
+  const mouse = req.body.mouse;
+  const ram = req.body.ram;
+  const ssd = req.body.ssd;
+  // create new computer
+  const computer = new Computer({
+    name,
+    price,
+    $case,
+    cpu,
+    fan,
+    gpu,
+    hdd,
+    keyboard,
+    mouse,
+    ram,
+    ssd,
+  });
+  // save to db
+  computer.save(err => {
+    if (err) {
+      return next(err);
+    }
+  });
+  // responmd with newly saved computer from db
+  res.send({
+    message: 'successfully created new computer package',
+    computer,
+  });
+};
