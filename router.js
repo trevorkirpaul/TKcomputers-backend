@@ -6,11 +6,9 @@ const Software = require('./controllers/software');
 const Computer = require('./controllers/computer');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
- const Profile = require('./controllers/profile');
+const Profile = require('./controllers/profile');
 
-
-module.exports = (app) => {
-  
+module.exports = app => {
   // remove item
   app.post('/parts/remove', Parts.removePart);
 
@@ -19,8 +17,8 @@ module.exports = (app) => {
     const user = req.user;
     res.send(user);
   });
-  app.get('/get/profile', Profile.getProfile )
-  app.post('/signin', requireSignin, Authentication.signin)
+  app.get('/get/profile', Profile.getProfile);
+  app.post('/signin', requireSignin, Authentication.signin);
 
   app.post('/signup', Authentication.signup);
 
@@ -29,7 +27,7 @@ module.exports = (app) => {
   app.get('/products/get/computers', Computer.getComputers);
 
   // routes for parts -- admin -- create/delete/read raw data
-  
+
   // GPU
   // create gpu
   app.post('/parts/set/gpu', Parts.createGPU);
@@ -47,7 +45,7 @@ module.exports = (app) => {
 
   // SSD --
   app.post('/parts/ssd', Parts.createSSD);
-  app.get('/parts/get/ssd', Parts.getAllSSD)
+  app.get('/parts/get/ssd', Parts.getAllSSD);
   // HDD
   // create HDD
   app.post('/parts/set/hdd', Parts.createHDD);
@@ -83,4 +81,4 @@ module.exports = (app) => {
   app.post('/software/set/os', Software.createOS);
   //get OSs
   app.get('/software/get/os', Software.getOSs);
-}
+};

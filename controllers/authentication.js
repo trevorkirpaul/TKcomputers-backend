@@ -46,15 +46,11 @@ exports.signup = (req, res, next) => {
       email: email,
       password: password,
       admin: admin,
-      profile: {
-        firstName,
-        lastName,
-        address: {
-          city,
-          state,
-          street
-        }
-      }
+      firstName,
+      lastName,
+      city,
+      state,
+      street
     });
     user.save((err) => {
       if (err) { return next(err); }
