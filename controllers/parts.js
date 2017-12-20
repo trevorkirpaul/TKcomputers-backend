@@ -80,6 +80,7 @@ exports.findGPU = (req, res, next) => {
 exports.createCPU = (req, res, next) => {
   // pull infro from req
   const brand = req.body.brand;
+  const model = req.body.model;
   const chipset = req.body.chipset;
   const cpuSeries = req.body.cpuSeries;
   const frequency = {};
@@ -95,6 +96,7 @@ exports.createCPU = (req, res, next) => {
   // create new CPU using vars pulled
   const cpu = new Cpu({
     brand,
+    model,
     chipset,
     cpuSeries,
     frequency,
@@ -106,16 +108,27 @@ exports.createCPU = (req, res, next) => {
     pciLanes,
     imagePath,
   });
+
   // save new cpu
   cpu.save(err => {
     if (err) {
       return next(err);
     }
   });
+
   // respond with created cpu from db
   res.json({
     message: 'new cpu added to database!',
     cpu,
+  });
+};
+
+exports.getCPUs = (req, res, next) => {
+  Cpu.find({}, 'brand model id', (err, cpus) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(cpus);
   });
 };
 

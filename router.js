@@ -39,6 +39,7 @@ module.exports = app => {
   app.post('/parts/set/cpu', Parts.createCPU);
   // get all CPU
   app.get('/parts/get/cpu', Parts.getAllCPU);
+  app.get('/parts/get/cpulib', Parts.getCPUs);
 
   // VIEW MORE INFO MODAL
   app.post('/products/search', Parts.getSearch);
