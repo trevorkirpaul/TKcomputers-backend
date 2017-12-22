@@ -22,7 +22,9 @@ module.exports = app => {
 
   app.post('/signup', Authentication.signup);
 
+  // routes for orders -- shopping cart
   app.post('/get/orderdetails', Profile.getCart);
+  app.put('/shoppingcart/add', Profile.addToCart);
 
   // create COMPUTER package/prebuilt
   app.post('/products/set/computers', Computer.createComputer);
