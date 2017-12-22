@@ -18,9 +18,11 @@ const userSchema = new Schema(
     state: String,
     street: String,
 
-    ordersComplete: Array,
-    ordersCurrent: Array,
-    shoppingCart: Array,
+    orders: {
+      complete: Array,
+      current: Array,
+      shoppingCart: Array,
+    },
   },
   { collection: 'users' }
 );

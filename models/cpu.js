@@ -19,6 +19,7 @@ const cpuSchema = new Schema(
     cores: Number,
     pciLanes: Number,
     imagePath: String,
+    price: Number,
   },
   { collection: 'cpu' }
 );

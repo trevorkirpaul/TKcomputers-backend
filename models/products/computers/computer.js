@@ -4,17 +4,42 @@ const Schema = mongoose.Schema;
 // Define model
 const computerSchema = new Schema(
   {
-    name: String,
-    price: Number,
-    case: String,
-    cpu: String,
-    fan: String,
-    gpu: String,
-    hdd: String,
-    keyboard: String,
-    mouse: String,
-    ram: String,
-    ssd: String,
+    details: {
+      name: String,
+      price: Number,
+      description: String,
+      imagePath: String,
+      computerType: String,
+    },
+    parts: {
+      case: {
+        type: Object,
+      },
+      cpu: {
+        type: Object,
+      },
+      fan: {
+        type: Object,
+      },
+      gpu: {
+        type: Object,
+      },
+      hdd: {
+        type: Object,
+      },
+      keyboard: {
+        type: Object,
+      },
+      mouse: {
+        type: Object,
+      },
+      ram: {
+        type: Object,
+      },
+      ssd: {
+        type: Object,
+      },
+    },
   },
   { collection: 'computer' }
 );

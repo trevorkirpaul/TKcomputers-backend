@@ -2,23 +2,26 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define model
-const gpuSchema = new Schema({
-  brand: {type: String, default: 'defaultTest'},
-  model: String,
-  chipset: String,
-  gpuSeries: String,
-  clockSpeed: Number,
-  memory: Number,
-  ports: {
-    hdmi: Number,
-    displayPort: Number,
-    dvi: Number,
+const gpuSchema = new Schema(
+  {
+    brand: { type: String, default: 'defaultTest' },
+    model: String,
+    chipset: String,
+    gpuSeries: String,
+    clockSpeed: Number,
+    memory: Number,
+    ports: {
+      hdmi: Number,
+      displayPort: Number,
+      dvi: Number,
+    },
+    power: Number,
+    slotWidth: Number,
+    price: Number,
+    imagePath: String,
   },
-  power: Number,
-  slotWidth: Number,
-  price: Number,
-  imagePath: String,
-}, { collection: 'gpu' });
+  { collection: 'gpu' }
+);
 
 // create model class
 const ModelClass = mongoose.model('gpu', gpuSchema);

@@ -26,6 +26,7 @@ exports.createGPU = (req, res, next) => {
   const power = req.body.power;
   const slotWidth = req.body.slotWidth;
   const imagePath = req.body.imagePath;
+  const price = req.body.price;
   // create new gpu using pulled vars
   const gpu = new Gpu({
     brand,
@@ -38,6 +39,7 @@ exports.createGPU = (req, res, next) => {
     power,
     slotWidth,
     imagePath,
+    price,
   });
   // save gpu
   gpu.save(err => {
@@ -49,6 +51,15 @@ exports.createGPU = (req, res, next) => {
   res.json({
     message: 'new gpu added to database!',
     gpu,
+  });
+};
+// get GPUS for prebuilt creator
+exports.getGPU_library = (req, res, next) => {
+  Gpu.find({}, 'brand model price id', (err, gpus) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(gpus);
   });
 };
 
@@ -93,6 +104,7 @@ exports.createCPU = (req, res, next) => {
   const cores = req.body.cores;
   const pciLanes = req.body.pciLanes;
   const imagePath = req.body.imagePath;
+  const price = req.body.price;
   // create new CPU using vars pulled
   const cpu = new Cpu({
     brand,
@@ -107,6 +119,7 @@ exports.createCPU = (req, res, next) => {
     cores,
     pciLanes,
     imagePath,
+    price,
   });
 
   // save new cpu
@@ -123,8 +136,8 @@ exports.createCPU = (req, res, next) => {
   });
 };
 
-exports.getCPUs = (req, res, next) => {
-  Cpu.find({}, 'brand model id', (err, cpus) => {
+exports.getCPU_Library = (req, res, next) => {
+  Cpu.find({}, 'brand model price id', (err, cpus) => {
     if (err) {
       return next(err);
     }
@@ -183,6 +196,15 @@ exports.getAllSSD = (req, res, next) => {
   });
 };
 
+exports.getSSD_Library = (req, res, next) => {
+  Ssd.find({}, 'brand model price id', (err, ssds) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(ssds);
+  });
+};
+
 // HDD
 
 // create HDD
@@ -218,6 +240,15 @@ exports.createHDD = (req, res, next) => {
 // get all HDD
 exports.getHDDs = (req, res, next) => {
   Hdd.find({}, (err, Hdds) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Hdds);
+  });
+};
+// get HHDs for prebuild creator
+exports.getHDD_Library = (req, res, next) => {
+  Hdd.find({}, 'brand model price id', (err, Hdds) => {
     if (err) {
       return next(err);
     }
@@ -270,6 +301,16 @@ exports.getAllRam = (req, res, next) => {
   });
 };
 
+// get Ram for prebuild creator
+exports.getRam_Library = (req, res, next) => {
+  Ram.find({}, 'brand model price id', (err, Rams) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Rams);
+  });
+};
+
 // KEYBOARD
 
 // create keyboard
@@ -314,6 +355,16 @@ exports.getAllKeyboards = (req, res, next) => {
   });
 };
 
+// get Keyboards for prebuild creator
+exports.getKeyboard_Library = (req, res, next) => {
+  Keyboard.find({}, 'brand model price id', (err, Keebs) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Keebs);
+  });
+};
+
 // MOUSE
 
 // create mouse
@@ -354,6 +405,16 @@ exports.getAllMouses = (req, res, next) => {
       return next(err);
     }
     res.send(mouses);
+  });
+};
+
+// get Mouses for prebuild creator
+exports.getMouse_Library = (req, res, next) => {
+  Mouse.find({}, 'brand model price id', (err, Mouses) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Mouses);
   });
 };
 
@@ -408,6 +469,15 @@ exports.getAllCases = (req, res, next) => {
     res.send(Cases);
   });
 };
+// get Cases for prebuild creator
+exports.getCase_Library = (req, res, next) => {
+  Case.find({}, 'brand model price id', (err, Cases) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Cases);
+  });
+};
 
 // FAN
 
@@ -419,6 +489,7 @@ exports.createFan = (req, res, next) => {
   const type = req.body.type;
   const rpm = req.body.rpm;
   const imagePath = req.body.imagePath;
+  const price = req.body.price;
   // create new fan
   const fan = new Fan({
     brand,
@@ -426,6 +497,7 @@ exports.createFan = (req, res, next) => {
     type,
     rpm,
     imagePath,
+    price,
   });
   // save newly created fan to db
   fan.save(err => {
@@ -442,6 +514,16 @@ exports.createFan = (req, res, next) => {
 // get all fans
 exports.getFans = (req, res, next) => {
   Fan.find({}, (err, Fans) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(Fans);
+  });
+};
+
+// get Fans for prebuild creator
+exports.getFan_Library = (req, res, next) => {
+  Fan.find({}, 'brand model price id', (err, Fans) => {
     if (err) {
       return next(err);
     }
