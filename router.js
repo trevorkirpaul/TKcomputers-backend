@@ -25,6 +25,7 @@ module.exports = app => {
   // routes for orders -- shopping cart
   app.post('/get/orderdetails', Profile.getCart);
   app.put('/shoppingcart/add', Profile.addToCart);
+  app.put('/shoppingcart/remove', Profile.removeFromCart);
 
   // create COMPUTER package/prebuilt
   app.post('/products/set/computers', Computer.createComputer);
