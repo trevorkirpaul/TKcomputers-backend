@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 // Define model
 const cartItemSchema = new Schema(
   {
-    cartID: String,
     itemDetails: {
       ID: String,
       quantity: Number,

@@ -17,11 +17,8 @@ exports.getProfile = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   const id = req.body.id;
-  User.findOne({ _id: id }, 'orders', (err, info) => {
-    if (err) {
-      return next(err);
-    }
-    res.send(info.orders.shoppingCart);
+  User.findById(id).then(user => {
+    res.send(user.orders.shoppingCart);
   });
 };
 
@@ -33,7 +30,7 @@ exports.addToCart = (req, res, next) => {
   const pricePerUnit = req.body.pricePerUnit;
 
   // FIND CURRENT USER
-  User.findOne({ _id: userID }, (err, user) => {
+  User.findById(userID, (err, user) => {
     if (err) {
       return next(err);
     }
@@ -48,10 +45,10 @@ exports.addToCart = (req, res, next) => {
         userID,
       },
     });
-    cartItem.cartID = cartItem._id;
     // SAVE ITEM TO ARRAY
     user.orders.shoppingCart = [...user.orders.shoppingCart, cartItem];
-    user.save(err => {
+
+    user.save((err, user) => {
       if (err) {
         return next(err);
       }
@@ -71,8 +68,9 @@ exports.removeFromCart = (req, res, next) => {
       return next(err);
     }
     // FILTER ITEM FROM CART ARRAY of OBJECTS
+    // convert ID to string here, sicne it's an object prop
     user.orders.shoppingCart = user.orders.shoppingCart.filter(
-      item => item.cartID !== cartItemID
+      item => item._id.toString() !== cartItemID
     );
     // SAVE CURRENT USER
     user.save(err => {
