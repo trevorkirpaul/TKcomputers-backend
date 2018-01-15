@@ -15,7 +15,7 @@ module.exports = app => {
   // routes for user accounts
   app.get('/', requireAuth, (req, res) => {
     const user = req.user;
-    res.send(user);
+    res.send(user._id);
   });
   app.get('/get/profile', Profile.getProfile);
   app.post('/signin', requireSignin, Authentication.signin);

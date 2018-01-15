@@ -86,22 +86,28 @@ exports.removeFromCart = (req, res, next) => {
   const userID = req.body.userID;
   const cartItemID = req.body.cartItemID;
 
-  // FIND CURRENT USER
-  User.findOne({ _id: userID }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    // FILTER ITEM FROM CART ARRAY of OBJECTS
-    // convert ID to string here, sicne it's an object prop
-    user.orders.shoppingCart = user.orders.shoppingCart.filter(
-      item => item._id.toString() !== cartItemID
-    );
-    // SAVE CURRENT USER
-    user.save(err => {
-      if (err) {
-        return next(err);
-      }
-      res.send(user.orders.shoppingCart);
-    });
-  });
+  User.findByIdAndUpdate(userID, {
+    $pull: { cart: cartItemID },
+  })
+    .then(() => res.send({ message: 'item removed' }))
+    .catch(next);
+
+  // // FIND CURRENT USER
+  // User.findOne({ _id: userID }, (err, user) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   // FILTER ITEM FROM CART ARRAY of OBJECTS
+  //   // convert ID to string here, sicne it's an object prop
+  //   user.orders.shoppingCart = user.orders.shoppingCart.filter(
+  //     item => item._id.toString() !== cartItemID
+  //   );
+  //   // SAVE CURRENT USER
+  //   user.save(err => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     res.send(user.orders.shoppingCart);
+  //   });
+  // });
 };

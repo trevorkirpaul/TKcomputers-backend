@@ -55,12 +55,9 @@ exports.createComputer = (req, res, next) => {
 // get all computers
 
 exports.getComputers = (req, res, next) => {
-  Computer.find({}, (err, Computers) => {
-    if (err) {
-      return next(err);
-    }
-    res.send(Computers);
-  });
+  Computer.find({})
+    .then(comps => res.send({ items: comps }))
+    .catch(next);
 };
 
 exports.getComputer = (req, res, next) => {

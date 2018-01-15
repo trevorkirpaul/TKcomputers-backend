@@ -13,7 +13,8 @@ const tokenForUser = user => {
 exports.signin = (req, res, next) => {
   // user has already had their e-mail and pw auth'd
   // now we give them a token
-  res.send({ token: tokenForUser(req.user) });
+  const user = req.user;
+  res.send({ token: tokenForUser(req.user), userID: user._id });
 };
 
 // SIGNUP ROUTE
