@@ -17,9 +17,15 @@ exports.getProfile = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   const id = req.body.id;
-  User.findById(id).then(user => {
-    res.send(user.orders.shoppingCart);
-  });
+
+  User.findById(id)
+    .populate('cart')
+    .then(user => res.send(user.cart))
+    .catch(next);
+
+  // User.findById(id).then(user => {
+  //   res.send(user.orders.shoppingCart);
+  // });
 };
 
 // ADD ITEM TO CART
