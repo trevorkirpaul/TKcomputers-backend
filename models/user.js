@@ -17,14 +17,20 @@ const userSchema = new Schema(
     city: String,
     state: String,
     street: String,
+    cart: [{ type: Schema.Types.ObjectId, ref: 'cartItem' }],
 
     orders: {
       complete: Array,
       current: Array,
-      shoppingCart: Array,
+      shoppingCart: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'cartItem',
+        },
+      ],
     },
   },
-  { collection: 'users' }
+  { collection: 'users', usePushEach: true }
 );
 
 // on save hook, encrypt password

@@ -29,32 +29,50 @@ exports.addToCart = (req, res, next) => {
   const quantity = req.body.itemQuantity;
   const pricePerUnit = req.body.pricePerUnit;
 
-  // FIND CURRENT USER
-  User.findById(userID, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    // CREATE NEW CARTITEM, using CartItem model
-    const cartItem = new CartItem({
-      itemDetails: {
-        ID: productID,
-        quantity,
-        pricePerUnit,
-      },
-      userDetails: {
-        userID,
-      },
-    });
-    // SAVE ITEM TO ARRAY
-    user.orders.shoppingCart = [...user.orders.shoppingCart, cartItem];
+  const cartItem = {
+    itemDetails: {
+      ID: productID,
+      quantity,
+      pricePerUnit,
+    },
+    userDetails: {
+      userID,
+    },
+  };
 
-    user.save((err, user) => {
-      if (err) {
-        return next(err);
-      }
-      res.send(user);
-    });
-  });
+  CartItem.create(cartItem)
+    .then(cartItem =>
+      User.findByIdAndUpdate(userID, { $push: { cart: cartItem } })
+    )
+    .then(() => res.send({ message: 'item added!' }))
+    .catch(next);
+
+  // // FIND CURRENT USER
+  // User.findById(userID, (err, user) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   // CREATE NEW CARTITEM, using CartItem model
+  //   const cartItem = new CartItem({
+  //     itemDetails: {
+  //       ID: productID,
+  //       quantity,
+  //       pricePerUnit,
+  //     },
+  //     userDetails: {
+  //       userID,
+  //     },
+  //   });
+  //   // SAVE ITEM TO ARRAY
+  //   user.orders.shoppingCart = [...user.orders.shoppingCart, cartItem];
+
+  //   user.save((err, user) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     res.send(user);
+  //   });
+  // });
 };
 
 // REMOVE ITEM FROM CART
